@@ -73,9 +73,7 @@ A modern, interactive portfolio website for **Sagar D.** — Python Developer, W
 ---
 
 ## 🔐 Admin Passcode
-
-- Default passcode to unlock the built-in Admin Studio: **`sagar2026`**
-- Passcode can be updated at any time inside the Admin Studio security tab.
+Password can only access Admin if you need DM me direclty on my Email ThankYou
 
 ---
 
