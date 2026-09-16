@@ -216,11 +216,12 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
   };
 
   const [adminRecoveryEmail, setAdminRecoveryEmailState] = useState<string>(() => {
+    // Clear out potentially corrupted or previous custom emails and lock it exactly
+    // to the specified address per the prompt: mrsagar.0790@gmail.com
     try {
-      return localStorage.getItem(ADMIN_EMAIL_KEY) || DEFAULT_ADMIN_EMAIL;
-    } catch {
-      return DEFAULT_ADMIN_EMAIL;
-    }
+      localStorage.setItem(ADMIN_EMAIL_KEY, 'mrsagar.0790@gmail.com');
+    } catch {}
+    return 'mrsagar.0790@gmail.com';
   });
 
   const setAdminRecoveryEmail = (email: string) => {

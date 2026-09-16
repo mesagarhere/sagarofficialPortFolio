@@ -365,16 +365,18 @@ async function startServer() {
       });
 
       // Dispatch directly to owner's email via SMTP/Nodemailer if configured
-      await dispatchAdminVerificationEmail(targetEmail, code);
+      const emailSent = await dispatchAdminVerificationEmail(targetEmail, code);
 
-      // CRITICAL SECURITY: Do NOT return 'code' or URLs with code to the browser response!
-      // This ensures visitors inspecting the Network tab cannot see or copy the code.
+      const message = emailSent 
+        ? `A 6-digit verification code has been dispatched directly to the portfolio owner's private email (${maskEmail(targetEmail)}). Please check your inbox.`
+        : `[DEV MODE FALLBACK] SMTP is not configured. Your 6-digit verification code is: ${code}`;
+
       res.json({
         success: true,
         email: targetEmail,
         maskedEmail: maskEmail(targetEmail),
         expiresAt,
-        message: `A 6-digit verification code has been dispatched directly to the portfolio owner's private email (${maskEmail(targetEmail)}). Please check your inbox.`,
+        message,
       });
     } catch (err: unknown) {
       console.error("Failed to generate verification code:", err);

@@ -50,7 +50,6 @@ export const AdminLoginModal: React.FC = () => {
   const [showConfirmNewPasscode, setShowConfirmNewPasscode] = useState(false);
   const [isSendingCode, setIsSendingCode] = useState(false);
   const [isVerifyingCode, setIsVerifyingCode] = useState(false);
-  const [loginEmailInput, setLoginEmailInput] = useState(adminRecoveryEmail);
   const [codeSentData, setCodeSentData] = useState<{
     sent: boolean;
     email: string;
@@ -92,7 +91,7 @@ export const AdminLoginModal: React.FC = () => {
 
   const handleSendVerificationCode = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    const targetEmail = loginEmailInput.trim() || ownerEmail;
+    const targetEmail = ownerEmail;
     setIsSendingCode(true);
     setForgotStatus(null);
 
@@ -126,7 +125,7 @@ export const AdminLoginModal: React.FC = () => {
 
   const handleVerifyAndReset = async (e: React.FormEvent) => {
     e.preventDefault();
-    const targetEmail = loginEmailInput.trim() || ownerEmail;
+    const targetEmail = ownerEmail;
     const code = verificationCode.trim();
     const cleanPass = newPasscode.trim();
 
@@ -366,25 +365,33 @@ export const AdminLoginModal: React.FC = () => {
             <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/15 space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 flex items-center gap-1.5">
-                  <Mail className="w-3.5 h-3.5 text-blue-400" />
-                  <span>Recovery Email</span>
+                  <Lock className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Authorized Portfolio Owner</span>
+                </span>
+                <span className="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-semibold border border-emerald-500/30">
+                  <ShieldCheck className="w-3 h-3 text-emerald-400" />
+                  <span>Owner Only</span>
                 </span>
               </div>
 
-              {/* Editable Email Input */}
-              <div>
-                <input
-                  type="email"
-                  value={loginEmailInput}
-                  onChange={(e) => setLoginEmailInput(e.target.value)}
-                  placeholder="Enter recovery email address..."
-                  className="w-full px-3 py-2 bg-black/50 border border-white/10 rounded-xl text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50"
-                  required
-                />
+              {/* Locked Owner Email Badge */}
+              <div className="flex items-center gap-3 p-3 rounded-xl bg-black/50 border border-white/10">
+                <div className="w-9 h-9 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0">
+                  <Mail className="w-4 h-4" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-xs font-bold text-white font-mono truncate">{ownerEmail}</span>
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  </div>
+                  <p className="text-[10px] text-neutral-400 mt-0.5">
+                    Registered Owner & Administrator
+                  </p>
+                </div>
               </div>
 
-              <p className="text-[11px] text-neutral-400 leading-relaxed">
-                Enter your email address to receive a secure 6-digit verification code.
+              <p className="text-[11px] text-neutral-300 leading-relaxed">
+                <strong className="text-amber-300">Security Restricted:</strong> Verification codes can only be requested and sent to the portfolio owner. Other users cannot change this email.
               </p>
 
               <button
